@@ -2,6 +2,7 @@ import Link from "next/link";
 import LoginButton from "./LoginButton";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
+import LoggedIn from "./LoggedIn";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -14,7 +15,8 @@ const Navbar = async () => {
           <h2 className="text-blue-600">Home</h2>
         </Link>
         <ul className="flex items-center gap-6">
-          <LoginButton />
+          {!session?.user && <LoginButton />}
+          {session?.user && <LoggedIn image={session.user.image || ""} />}
         </ul>
       </nav>
     </>
